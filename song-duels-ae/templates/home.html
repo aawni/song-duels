@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Song Duels</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+  <script src= "http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="scripts/home.js"></script>
+</head>
+  <body>
+    <div id="buttons">
+      <p class="left_buttons"> <a  href="/friends">View Your Friends</a></p>
+      <p class="left_buttons"> <a  href="/challenges">View Your Challenges</a></p>
+      <p class="small_btn"> <a  href="/about">Meet The Creator</a></p>
+      {%if not no_nickname%}
+      <p class="right_buttons"> <a  href="{{logout_url}}">Logout Here, {{nickname}}</a></p>
+      {%else%}
+      <p class="right_buttons"> <a  href="{{logout_url}}">Logout Here</a></p>
+      {%endif%}
+    </div>
+  </br>
+    <div class="large_spacer">
+    </div>
+    <div class= "content">
+    <div class="small_spacer">
+    </div>
+    <h1 class="titles">Song Duels</h1>
+    {%if not no_nickname%}
+    <p class="sub_titles">Signed in as {{nickname}}</p>
+    {%endif%}
+    <div class="small_spacer">
+    </div>
+  </div>
+  <div class="spacer">
+  </div>
+    <div class= "content">
+    <div class="small_spacer">
+    </div>
+      {%if no_nickname%}
+        <form id="nickname_form" action="/searchnickname" method="post">
+        <p>
+          <div>Please enter a unique nickname:<input name="nickname" id="nickname"></input></div>
+          <input name="no_nickname" type="hidden" value={{no_nickname}} id="no_nickname">
+          <div><input class="delete" type="submit" value="Set Nickname"></div>
+        </p>
+        </form>
+        <p id="home_error" style="display: none"></p>
+      {%endif%}
+      <form id="setup_form" action="/quiz" method="get">
+        <input name="quiz_type" type="hidden" value="reg"></input>
+      <p>Choose your genre:
+        <select id ="genre" class="styled-select" name="genre">
+          <option value="hiphop">Hip Hop</option>
+          <option value="pop">Pop</option>
+          <option value="rock">Rock</option>
+          <option value="country">Country</option>
+          <option value="all">All Songs</option>
+          <option value="random">Random Genre</option>
+        </select>
+      </p>
+      <p class="sub_labels">You will hear 15 seconds of each song. The song title and artist are each worth one point. </p>
+      <p class="sub_labels">You will be timed! </p>
+      <input name="no_nickname" type="hidden" value={{no_nickname}} id="no_nickname">
+      </input>
+      <div><input class="big_btn" type="submit" value="continue to quiz"></input></div>
+    </form>
+    <div class="spacer"></div>
+    </div>
+  </body>
+</html>

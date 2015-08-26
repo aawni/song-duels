@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Song Duels</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    <script src= "http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="scripts/challengeresults.js"></script>
+  </head>
+  <body>
+    <div id="buttons">
+    <p class="left_buttons"> <a href="/home">Home</a></p>
+    <p class="right_buttons"> <a href="{{logout_url}}">Logout Here, {{nickname}}</a></p>
+    </div>
+
+    <div class="large_spacer"></div>
+    <div class="spacer"></div>
+
+    <div class= "content">
+    <div class="small_spacer"></div>
+    <h1 class="titles">Challenge Results</h1>
+
+    <p class="sub_titles">{{challenge.origin.nickname}} vs {{challenge.target.nickname}}</p>
+  </div>
+
+    <div class="spacer"></div>
+
+
+    <div class="content">
+    <div id="origin_results">
+    <p class="labels">{{challenge.origin.nickname}}</p>
+    <div id="timer" class="countdown">
+  <h1>{{challenge.min_origin}} : {{challenge.sec_origin}}</h1>
+  <p>minutes seconds</p>
+</div>
+  {%if challenge.correct_ans_origin.length==1%}
+  <p>{{challenge.correct_ans_origin.length}} question correct</p>
+  {%else%}
+  <p>{{challenge.correct_ans_origin.length}} questions correct</p>
+  {%endif%}
+  {% set counterQ=1 %}
+  {% set counterA=1 %}
+  {% for song in challenge.selected_songs%}
+  <div id="questions">
+  <div class="labels">Question {{counterQ}}</div>
+  <div style="position:relative;width:267px;height:25px;overflow:hidden;margin-left:14%" id="what_is_this">
+  <div style="position:absolute;top:-276px;left:-5px">
+  <div id="tester"></div>
+  <div id="videoContainer">
+  <iframe id="youTUBE" width="300" height="300"
+    src="https://www.youtube.com/embed/{{song.youtube_ID}}?wmode=transparent&autoplay=0">
+  </iframe>
+  </div>
+  </div>
+  </div>
+  {%if counterA in challenge.correct_ans_origin%}
+  <img src="http://www.clipartbest.com/cliparts/nTB/9dE/nTB9dEnTA.png" class="img">
+  {%else%}
+  <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Red_X.gif" class="img">
+  {%endif%}
+  <p class="sub_labels" id="results_inline">{{song.artist}}</p>
+  </br>
+  {%set counterA=counterA+1 %}
+
+  {%if counterA in challenge.correct_ans_origin%}
+  <img src="http://www.clipartbest.com/cliparts/nTB/9dE/nTB9dEnTA.png" class="img">
+  {%else%}
+  <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Red_X.gif" class="img">
+  {%endif%}
+  <p class="sub_labels" id="results_inline">{{song.title}}</p>
+  {% set counterQ=counterQ+1 %}
+  {% set counterA=counterA+1 %}
+</div>
+  {%endfor%}
+</div>
+
+  <div id="target_results">
+    <p class="labels">{{challenge.target.nickname}}</p>
+    <div id="timer" class="countdown">
+  <h1>{{challenge.min_target}} : {{challenge.sec_target}}</h1>
+  <p>minutes seconds</p>
+</div>
+{%if challenge.correct_ans_target.length==1%}
+<p>{{challenge.correct_ans_target.length}} question correct</p>
+{%else%}
+<p>{{challenge.correct_ans_target.length}} questions correct</p>
+{%endif%}
+
+  {% set counterQ=1 %}
+  {% set counterA=1 %}
+  {% for song in challenge.selected_songs%}
+  <div id="questions">
+  <div class="labels">Question {{counterQ}}</div>
+  <div style="position:relative;width:267px;height:25px;overflow:hidden;margin-left:14%" id="what_is_this">
+  <div style="position:absolute;top:-276px;left:-5px">
+  <div id="tester"></div>
+  <div id="videoContainer">
+  <iframe id="youTUBE" width="300" height="300"
+    src="https://www.youtube.com/embed/{{song.youtube_ID}}?wmode=transparent&autoplay=0">
+  </iframe>
+  </div>
+  </div>
+  </div>
+  {%if counterA in challenge.correct_ans_origin%}
+  <img src="http://www.clipartbest.com/cliparts/nTB/9dE/nTB9dEnTA.png" class="img">
+  {%else%}
+  <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Red_X.gif" class="img">
+  {%endif%}
+  <p class="sub_labels" id="results_inline">{{song.artist}}</p>
+  </br>
+  {%set counterA=counterA+1 %}
+
+  {%if counterA in challenge.correct_ans_origin%}
+  <img src="http://www.clipartbest.com/cliparts/nTB/9dE/nTB9dEnTA.png" class="img">
+  {%else%}
+  <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Red_X.gif" class="img">
+  {%endif%}
+  <p class="sub_labels" id="results_inline">{{song.title}}</p>
+  {% set counterQ=counterQ+1 %}
+  {% set counterA=counterA+1 %}
+</div>
+  {%endfor%}
+  </div>
+   <div class="really_big_spacer"></div>
+</div>
+  </body>
+</html>

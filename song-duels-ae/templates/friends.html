@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Song Duels</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+  <script src= "http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="scripts/friends.js"></script>
+</head>
+  <body>
+    <div id="buttons">
+    <p class="left_buttons"> <a  href="/home">Home</a></p>
+    <p class="right_buttons"> <a  href="{{logout_url}}">Logout Here, {{user_in_datastore.nickname}}</a></p>
+  </div>
+
+    <div class="large_spacer"></div>
+    <div class="small_spacer"></div>
+
+  <div class="content">
+  <div class="small_spacer"></div>
+  <h1 class="titles">Your Friends</h1>
+  <div id="friends">
+    {%if friends%}
+      {%for friend in friends%}
+        <p id="friend_nickname">{{friend.nickname}}</p>
+        {% if friend.questions_played>0 %}
+        <p id="questions_played"> won {{(friend.questions_correct/friend.questions_played)*100}}% of questions played</p>
+        {%else%}
+        <p id="questions_played"> has not played any games yet</p>
+        {%endif%}
+        {% if friend.best_min %}
+        <p id="questions_played"> best time: {{friend.best_min}} : {{friend.best_sec}}</p>
+        {%endif%}
+        <form id="delete" action="/deletefriend" method="post">
+        <p>
+          <input name="delete_friend_id" type="hidden" value={{friend.user_id}} id="delete_friend_id"></input>
+          <div><input class="delete" type="submit" value="Delete This Friend"></div>
+        </p>
+        </form>
+      </br>
+      {%endfor%}
+    {%else%}
+      <p>You have no friends!</p>
+    {%endif%}
+    </div>
+    <form id="show_add_friends" action="/friends" method="post">
+    <p>
+      <div><input class="small_btn_center" type="submit" value="Find Friends"></div>
+    </p>
+    <div class="spacer">
+    </div>
+    </form>
+    <form id="add_friends_form" action="/friends" method="post" style="display: none">
+    <p>
+      <div class="labels">Enter their nickname: <input name="friend_nickname" id="friend_nickname_jquery"></input></div>
+      <div><input class="small_btn_center" type="submit" value="Add Friend"></div>
+    </p>
+    <div class="spacer"></div>
+    </form>
+    <p id="friend_error" style="display: none"></p>
+    <form id="challenge" action="/challengesetup" method="get">
+    <p>
+      <div><input class="small_btn_center" type="submit" value="Challenge a Friend!"></div>
+    </p>
+    <div class="spacer">
+    </div>
+    </form>
+
+    {%if request_list%}
+      <p class="sub_titles">These people have added you as a friend. Would you like to add them back?</p>
+      {%for requested_friend in request_list%}
+      <p id="friend_nickname">{{requested_friend.nickname}}</p>
+
+        <form id="response_yes_form" action="/friends" method="get">
+        <p>
+          <input name="id_requested" type="hidden" value={{requested_friend.user_id}} id="id_requested"></input>
+          <div><input class="response_yes" type="submit" value="Yes"></input></div>
+        </p>
+      </form>
+        <form id="response_no_form" action="/friends" method="get">
+          <p>
+            <input name="id_requested" type="hidden" value={{requested_friend.user_id}} id="id_requested"></input>
+            <div><input class="response_no" type="submit" value="No"></input></div>
+          </p>
+        </form>
+    </br>
+      {%endfor%}
+    {%endif%}
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class= "content">
+  <div class="small_spacer"></div>
+  <h1 class="titles">Your Record</h1>
+  {% if user_in_datastore.questions_played>0 %}
+  <p id="questions_played">You won {{(user_in_datastore.questions_correct/user_in_datastore.questions_played)*100}}% of questions played</p>
+  {%else%}
+  <p id="questions_played"> You have not played any games yet</p>
+  {%endif%}
+  {% if user_in_datastore.best_min %}
+  <p id="questions_played"> best time: {{friend.best_min}} : {{friend.best_sec}}</p>
+  {%endif%}
+</div>
+  </body>
+</html>

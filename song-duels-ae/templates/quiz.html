@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Song Duels</title>
+<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="src/jquery.missofis-countdown.js"></script>
+<script src= "http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="scripts/home.js"></script>
+</head>
+  <body>
+    <div id="buttons">
+    <p class="left_buttons"> <a  href="/home">Home</a></p>
+    <p class="right_buttons"> <a  href="{{logout_url}}">Logout Here, {{nickname}}</a></p>
+    </div>
+    <div class="large_spacer">
+    </div>
+
+    <div class= "content">
+    <div class="small_spacer"></div>
+    <h1 class="titles">Guess That Song</h1>
+    {%if quiz_type=="new"%}
+    <p class="sub_titles">You are challenging {{target.nickname}}</p>
+    {%elif quiz_type=="old"%}
+    <p class="sub_titles">Challenged by {{origin_nickname}}</p>
+    {%endif%}
+    <p class="sub_titles">Genre: {{genre}}</p>
+    <div class="small_spacer"></div>
+    </div>
+
+    <div class="spacer">
+    </div>
+
+    <div class="content">
+    <div class="small_spacer"></div>
+    <form id="quiz_form" action="/results" method="post">
+    <p>
+      {% set counter=1 %}
+      {% for song in selected_songs %}
+    </br>
+          <div class="labels">Question {{counter}}</div>
+          <div style="position:relative;width:267px;height:25px;overflow:hidden;">
+          <div style="position:absolute;top:-276px;left:-5px">
+          <div id="tester"></div>
+          <div id="videoContainer">
+          <iframe id="youTUBE" width="300" height="300"
+            src="https://www.youtube.com/embed/{{song.youtube_ID}}?wmode=transparent&autoplay=0&start=50&end=65">
+          </iframe>
+          </div>
+          </div>
+          </div>
+            <div class="sub_labels">Artist: <input name="artist{{counter}}"></input></div>
+            <div class="sub_labels">Song Title: <input name="song_title{{counter}}"></input></div>
+        {% set counter=counter+1 %}
+      {% endfor %}
+        <input name="genre" type="hidden" value={{genre}}></input>
+        <input name="string_selected_youtube_IDs" type="hidden" value={{string_selected_youtube_IDs}}></input>
+        <input name="quiz_type" type="hidden" value={{quiz_type}}></input>
+        {%if quiz_type=="new"%}
+        <input name="target_nickname" type="hidden" value={{target.nickname}}></input>
+        {%elif quiz_type=="old"%}
+        <input name="challenge_key" type="hidden" value={{challenge_key}}></input>
+        {%endif%}
+        <div class="spacer"></div>
+      <div><input class="big_btn" id="submit_quiz" type="submit" value="Submit Quiz"></div>
+    </p>
+    <div class="spacer"></div>
+  </div>
+    </form>
+  </body>
+</html>
